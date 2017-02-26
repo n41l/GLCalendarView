@@ -49,6 +49,9 @@
     self.todayLabelAttributes = appearance.todayLabelAttributes ?: @{NSFontAttributeName:[UIFont boldSystemFontOfSize:22]};
     
     self.backgroundCover.paddingTop = appearance.editCoverPadding ?: 2;
+    self.backgroundCover.paddingLeft = [GLCalendarView appearance].padding ?: 2;
+    self.backgroundCover.paddingRight = [GLCalendarView appearance].padding ?: 2;
+    
     self.backgroundCover.borderWidth = appearance.editCoverBorderWidth ?: 2;
     self.backgroundCover.strokeColor = appearance.editCoverBorderColor ?: [UIColor darkGrayColor];
     

@@ -34,6 +34,7 @@
     [super viewWillAppear:YES];
     
     NSDate *today = [NSDate date];
+    self.calendarView.rowHeight = 38;
     
     NSDate *beginDate1 = [GLDateUtils dateByAddingDays:-32 toDate:today];
     NSDate *endDate1 = [GLDateUtils dateByAddingDays:-26 toDate:today];

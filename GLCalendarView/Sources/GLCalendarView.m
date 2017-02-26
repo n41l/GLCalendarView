@@ -13,7 +13,7 @@
 
 static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
 
-#define DEFAULT_PADDING 6;
+#define DEFAULT_PADDING 2;
 #define DEFAULT_ROW_HEIGHT 54;
 
 @interface GLCalendarView()<UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
@@ -31,6 +31,7 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
 @property (weak, nonatomic) IBOutlet GLCalendarMonthCoverView *monthCoverView;
 @property (weak, nonatomic) IBOutlet UIView *magnifierContainer;
 @property (weak, nonatomic) IBOutlet UIImageView *maginifierContentView;
+@property (weak, nonatomic) IBOutlet UIImageView *weekViewShadowView;
 @end
 
 @implementation GLCalendarView
@@ -139,6 +140,8 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
     self.weekDayTitleAttributes = appearance.weekDayTitleAttributes ?: @{NSFontAttributeName:[UIFont systemFontOfSize:8], NSForegroundColorAttributeName:[UIColor grayColor]};
     self.monthCoverAttributes = appearance.monthCoverAttributes ?: @{NSFontAttributeName:[UIFont systemFontOfSize:30]};
     self.monthCoverView.textAttributes = self.monthCoverAttributes;
+    self.weekDayTitle.backgroundColor = appearance.weekViewBackgroundColor;
+    self.weekViewShadowView.image = appearance.weekViewShadowImage;
 }
 
 #pragma mark - public api

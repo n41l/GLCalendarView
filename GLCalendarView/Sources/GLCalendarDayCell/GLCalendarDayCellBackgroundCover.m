@@ -25,7 +25,7 @@
         self.layer.borderWidth = borderWidth;
         self.layer.cornerRadius = size / 2;
         self.backgroundColor = [UIColor whiteColor];
-        self.layer.masksToBounds = YES;
+        self.layer.masksToBounds = NO;
     }
     return self;
 }
@@ -60,18 +60,19 @@
 {
     _inEdit = inEdit;
     if (inEdit) {
+        CGFloat horizontalDelta = (self.bounds.size.width - self.bounds.size.height) / 2;
         if (self.rangePosition == RANGE_POSITION_BEGIN) {
-            self.beginPoint.center = CGPointMake(self.borderWidth / 2 + self.paddingLeft, self.bounds.size.height / 2);
+            self.beginPoint.center = CGPointMake(self.borderWidth / 2 + self.paddingLeft + horizontalDelta, self.bounds.size.height / 2);
             [self addSubview:self.beginPoint];
             [_endPoint removeFromSuperview];
         } else if (self.rangePosition == RANGE_POSITION_END) {
-            self.endPoint.center = CGPointMake(self.bounds.size.width - self.borderWidth / 2 - self.paddingRight, self.bounds.size.height / 2);
+            self.endPoint.center = CGPointMake(self.bounds.size.width - self.borderWidth / 2 - self.paddingRight - horizontalDelta, self.bounds.size.height / 2);
             [self addSubview:self.endPoint];
             [_beginPoint removeFromSuperview];
         } else if (self.rangePosition == RANGE_POSITION_SINGLE) {
-            self.beginPoint.center = CGPointMake(self.borderWidth / 2 + self.paddingLeft, self.bounds.size.height / 2);
+            self.beginPoint.center = CGPointMake(self.borderWidth / 2 + self.paddingLeft + horizontalDelta, self.bounds.size.height / 2);
             [self addSubview:self.beginPoint];
-            self.endPoint.center = CGPointMake(self.bounds.size.width - self.borderWidth / 2 - self.paddingRight, self.bounds.size.height / 2);
+            self.endPoint.center = CGPointMake(self.bounds.size.width - self.borderWidth / 2 - self.paddingRight - horizontalDelta, self.bounds.size.height / 2);
             [self addSubview:self.endPoint];
         } else {
             [_beginPoint removeFromSuperview];
@@ -123,13 +124,15 @@
     
     CGFloat height = rect.size.height;
     CGFloat width = rect.size.width;
+    CGFloat horizontalDelta = (width - height) / 2;
     CGFloat radius = (height - borderWidth * 2 - paddingTop * 2) / 2;
     
+    CGFloat midX = CGRectGetMidX(rect);
     CGFloat midY = CGRectGetMidY(rect);
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     if (!self.inEdit && !self.continuousRangeDisplay) {
-        CGRect rect = CGRectMake(borderWidth + paddingLeft, borderWidth + paddingTop, width - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2);
+        CGRect rect = CGRectMake(borderWidth + paddingLeft + horizontalDelta, borderWidth + paddingTop, height - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2);
         if (self.backgroundImage) {
             [self.backgroundImage drawInRect:rect];
             return;
@@ -142,14 +145,14 @@
     }
     
     if (self.rangePosition == RANGE_POSITION_BEGIN) {
-        [path moveToPoint:CGPointMake(radius + borderWidth + paddingLeft, paddingTop + borderWidth)];
-        [path addArcWithCenter:CGPointMake(radius + borderWidth + paddingLeft, midY) radius:radius startAngle: - M_PI / 2 endAngle: M_PI / 2 clockwise:NO];
+        [path moveToPoint:CGPointMake(midX, paddingTop + borderWidth)];
+        [path addArcWithCenter:CGPointMake(midX, midY) radius:radius startAngle: - M_PI / 2 endAngle: M_PI / 2 clockwise:NO];
         [path addLineToPoint:CGPointMake(width, height - borderWidth - paddingTop)];
         [path addLineToPoint:CGPointMake(width, borderWidth + paddingTop)];
         [path closePath];
     } else if (self.rangePosition == RANGE_POSITION_END) {
-        [path moveToPoint:CGPointMake(width - borderWidth - radius - paddingRight, paddingTop + borderWidth)];
-        [path addArcWithCenter:CGPointMake(width - borderWidth - radius - paddingRight, midY) radius:radius startAngle: - M_PI / 2 endAngle: M_PI / 2 clockwise:YES];
+        [path moveToPoint:CGPointMake(midX, paddingTop + borderWidth)];
+        [path addArcWithCenter:CGPointMake(midX, midY) radius:radius startAngle: - M_PI / 2 endAngle: M_PI / 2 clockwise:YES];
         [path addLineToPoint:CGPointMake(0, height - borderWidth - paddingTop)];
         [path addLineToPoint:CGPointMake(0, borderWidth + paddingTop)];
         [path closePath];
@@ -160,7 +163,7 @@
         [path addLineToPoint:CGPointMake(0, height - borderWidth - paddingTop)];
         [path closePath];
     } else if (self.rangePosition == RANGE_POSITION_SINGLE) {
-        path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(borderWidth + paddingLeft, borderWidth + paddingTop, width - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2)];
+        path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(borderWidth + paddingLeft + horizontalDelta, borderWidth + paddingTop, height - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2)];
         [path closePath];
     }
     if (_inEdit) {
@@ -185,8 +188,10 @@
     
     CGFloat height = rect.size.height;
     CGFloat width = rect.size.width;
+    
+    CGFloat horizontalDelta = (width - height) / 2;
             
-    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(borderWidth + paddingLeft, borderWidth + paddingTop, width - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2)];
+    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(borderWidth + paddingLeft + horizontalDelta, borderWidth + paddingTop, height - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2)];
     [path closePath];
     [self.fillColor setFill];
     [path fill];
