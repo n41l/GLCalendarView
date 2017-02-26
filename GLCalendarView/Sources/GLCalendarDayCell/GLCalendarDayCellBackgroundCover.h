@@ -18,8 +18,8 @@ typedef NS_ENUM(NSInteger, RANGE_POSITION) {
 
 @interface GLCalendarDayCellBackgroundCover : UIView
 @property (nonatomic) RANGE_POSITION rangePosition;
-@property (nonatomic) CGFloat paddingLeft;
-@property (nonatomic) CGFloat paddingRight;
+//@property (nonatomic) CGFloat paddingLeft;
+//@property (nonatomic) CGFloat paddingRight;
 @property (nonatomic) CGFloat paddingTop;
 @property (nonatomic, strong) UIColor *fillColor;
 @property (nonatomic, strong) UIColor *strokeColor;

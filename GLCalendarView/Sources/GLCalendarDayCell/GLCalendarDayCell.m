@@ -49,8 +49,6 @@
     self.todayLabelAttributes = appearance.todayLabelAttributes ?: @{NSFontAttributeName:[UIFont boldSystemFontOfSize:22]};
     
     self.backgroundCover.paddingTop = appearance.editCoverPadding ?: 2;
-    self.backgroundCover.paddingLeft = [GLCalendarView appearance].padding ?: 2;
-    self.backgroundCover.paddingRight = [GLCalendarView appearance].padding ?: 2;
     
     self.backgroundCover.borderWidth = appearance.editCoverBorderWidth ?: 2;
     self.backgroundCover.strokeColor = appearance.editCoverBorderColor ?: [UIColor darkGrayColor];
@@ -94,25 +92,7 @@
     } else {
         self.backgroundCover.backgroundColor = self.oddMonthBackgroundColor;
     }
-    
-    // adjust background position
-    if (self.position == POSITION_LEFT_EDGE) {
-        self.backgroundCoverRight.constant = 0;
-        self.backgroundCoverLeft.constant = -self.containerPadding;
-        self.backgroundCover.paddingLeft = self.containerPadding;
-        self.backgroundCover.paddingRight = 0;
-    } else if (self.position == POSITION_RIGHT_EDGE){
-        self.backgroundCoverRight.constant = -self.containerPadding;
-        self.backgroundCoverLeft.constant = 0;
-        self.backgroundCover.paddingLeft = 0;
-        self.backgroundCover.paddingRight = self.containerPadding;
-    } else {
-        self.backgroundCoverRight.constant = 0;
-        self.backgroundCoverLeft.constant = 0;
-        self.backgroundCover.paddingLeft = 0;
-        self.backgroundCover.paddingRight = 0;
-    }
-        
+
     // day label and month label
     if ([self isToday]) {
         self.monthLabel.textColor = [UIColor whiteColor];
@@ -121,15 +101,13 @@
         todayFormatter.timeStyle = NSDateFormatterNoStyle;
         todayFormatter.doesRelativeDateFormatting = YES;
         [self setMonthLabelText:[todayFormatter stringFromDate:[NSDate date]]];
-        self.dayLabel.textColor = [UIColor whiteColor];
-        [self setTodayLabelText:[NSString stringWithFormat:@"%ld", (long)day]];
+        [self setTodayLabelText:@""];
         self.backgroundCover.isToday = YES;
         self.backgroundCover.fillColor = self.todayBackgroundColor;
     } else if (day == 1) {
         self.monthLabel.textColor = [UIColor redColor];
         [self setMonthLabelText:[self monthText:month]];
-        self.dayLabel.textColor = [UIColor redColor];
-        [self setDayLabelText:[NSString stringWithFormat:@"%ld", (long)day]];
+        [self setTodayLabelText:@""];
         self.backgroundCover.isToday = NO;
     } else {
         self.monthLabel.textColor = [UIColor blackColor];
@@ -140,7 +118,11 @@
     }
     
     if ([self isFuture]) {
-        [self setFutureDayLabelText:[NSString stringWithFormat:@"%ld", (long)day]];
+        if (day == 1) {
+            [self setFutureDayLabelText:@""];
+        }else {
+            [self setFutureDayLabelText:[NSString stringWithFormat:@"%ld", (long)day]];
+        }
     }
     
     // background cover

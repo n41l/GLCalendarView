@@ -141,7 +141,7 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
     self.monthCoverAttributes = appearance.monthCoverAttributes ?: @{NSFontAttributeName:[UIFont systemFontOfSize:30]};
     self.monthCoverView.textAttributes = self.monthCoverAttributes;
     self.weekDayTitle.backgroundColor = appearance.weekViewBackgroundColor;
-    self.weekViewShadowView.image = appearance.weekViewShadowImage;
+    self.weekViewShadowView.image = appearance.weekViewShadowImage ?: [UIImage imageNamed:@"gl-calendar-shadow"];
 }
 
 #pragma mark - public api
