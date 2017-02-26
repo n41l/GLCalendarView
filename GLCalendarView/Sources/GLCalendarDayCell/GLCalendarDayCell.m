@@ -137,14 +137,13 @@
         // check position in range
         BOOL isBeginDate = [GLDateUtils date:self.date isSameDayAsDate:self.range.beginDate];
         BOOL isEndDate = [GLDateUtils date:self.date isSameDayAsDate:self.range.endDate];
-        
-        if (isBeginDate && isEndDate) {
+        if ((isBeginDate && isEndDate) || (isBeginDate && self.position == POSITION_RIGHT_EDGE) || (isEndDate && self.position == POSITION_LEFT_EDGE)) {
             self.backgroundCover.rangePosition = RANGE_POSITION_SINGLE;
             [self.superview bringSubviewToFront:self];
-        } else if (isBeginDate) {
+        } else if (isBeginDate || self.position == POSITION_LEFT_EDGE) {
             self.backgroundCover.rangePosition = RANGE_POSITION_BEGIN;
             [self.superview bringSubviewToFront:self];
-        } else if (isEndDate) {
+        } else if (isEndDate || self.position == POSITION_RIGHT_EDGE) {
             self.backgroundCover.rangePosition = RANGE_POSITION_END;
             [self.superview bringSubviewToFront:self];
         } else {
